@@ -1,0 +1,6 @@
+name             'data_bag_test'
+maintainer       'Taku Nakajima'
+maintainer_email 'takunakajima@gmail.com'
+license          'All rights reserved'
+description      'Installs/Configures data_bag_test'
+version          '0.1.0'

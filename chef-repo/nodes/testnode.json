@@ -1,0 +1,5 @@
+{
+  "run_list": [
+    "recipe[data_bag_test]"
+  ]
+}
