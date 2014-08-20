@@ -18,4 +18,14 @@ Chef::Log.info("S3 secret_key is: ‘#{s3_creds["secret_key"]}’")
 sample = Chef::EncryptedDataBagItem.load("files", "sample.txt")
 Chef::Log.info("Decrypted file content is: ‘#{sample["content"]}’")
 
+RESULT_ROOT = "/tmp/databag_test_result"
+
+directory RESULT_ROOT
+
+template "#{RESULT_ROOT}/database.yml" do
+end
+
+template "#{RESULT_ROOT}/sample.sh" do
+  mode 0755
+end
 

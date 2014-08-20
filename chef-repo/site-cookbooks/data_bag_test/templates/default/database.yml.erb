@@ -1,0 +1,11 @@
+
+<% mysql_creds = Chef::EncryptedDataBagItem.load("passwords", "mysql") %>
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: sample_mysql_production
+  pool: 5
+  username: root
+  password: <%= mysql_creds["root"] %>
+  host: localhost
