@@ -3,16 +3,30 @@ require 'rubygems'
 require 'chef/encrypted_data_bag_item'
  
 SECRET = "secret/secret_key"
-DATA_BAG_ROOT = "chef-repo/data_bags"
+DATA_BAG_ROOT = File::expand_path("chef-repo/data_bags")
+SOURCES = "secret/sources"
+
+def create_data_bag_items(path, json)
+  File.open(path, 'w') do |f|
+    f.print json
+  end
+end
 
 def create_encrypted_data_bags
   secret = Chef::EncryptedDataBagItem.load_secret(SECRET)
-  data = {"id" => "mysql", "root" => "mysqlrootpassword", "monitoring" => "mysqlmonitorpassword"}
-  encrypted_data = Chef::EncryptedDataBagItem.encrypt_data_bag_item(data, secret)
  
-  FileUtils.mkpath("#{DATA_BAG_ROOT}")
-  File.open("#{DATA_BAG_ROOT}/mysql.json", 'w') do |f|
-    f.print encrypted_data.to_json
+  Dir.chdir(SOURCES) do
+    Dir["*"].each do |dir|
+      puts dir, File::join(DATA_BAG_ROOT, dir)
+      FileUtils.mkdir_p(File::join(DATA_BAG_ROOT, dir))
+      Dir["#{dir}/*.json"].each do |f|
+        puts f
+        json = JSON.parse File::open(f).read
+        encrypted_data = Chef::EncryptedDataBagItem.encrypt_data_bag_item(json, secret)
+        p json,encrypted_data
+        create_data_bag_items(File::join(DATA_BAG_ROOT, f), encrypted_data.to_json)
+      end
+    end
   end
 end
 
