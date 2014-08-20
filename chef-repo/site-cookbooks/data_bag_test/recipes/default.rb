@@ -15,4 +15,7 @@ s3_creds = Chef::EncryptedDataBagItem.load("api_keys", "s3")
 Chef::Log.info("S3 access_key is: ‘#{s3_creds["access_key"]}’")
 Chef::Log.info("S3 secret_key is: ‘#{s3_creds["secret_key"]}’")
 
+sample = Chef::EncryptedDataBagItem.load("files", "sample.txt")
+Chef::Log.info("Decrypted file content is: ‘#{sample["content"]}’")
+
 
