@@ -29,3 +29,8 @@ template "#{RESULT_ROOT}/sample.sh" do
   mode 0755
 end
 
+file "#{RESULT_ROOT}/sample.txt" do
+  content sample["content"]
+end
+
+
